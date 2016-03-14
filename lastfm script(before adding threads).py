@@ -2,7 +2,6 @@ import bs4, requests, time, datetime, csv, operator, sys
 
 
 
-#api_key = 'f5568b11b1f7d35c7b6eba8ac94129d1' # povo_yeti
 
 api_key = '41311834bebb507fda9e070db4a0904e' # nathan_api
 
