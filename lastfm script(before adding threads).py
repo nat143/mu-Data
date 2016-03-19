@@ -220,7 +220,7 @@ while True:
         print('enter query')
         query = input().lower()
         print('enter title')
-        title = input().lower()
+        title = input()
         scrobbles_viewing(query, title)
     elif command == '':
         break
