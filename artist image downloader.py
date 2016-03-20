@@ -14,7 +14,7 @@ for item in Artists:
     else:
         pass
 #
-valid_chars = "-_.() %s%s" % (string.ascii_letters, string.digits)
+valid_chars = "&-_.() %s%s" % (string.ascii_letters, string.digits)
 notfound = []
 
 for item in Artists:
