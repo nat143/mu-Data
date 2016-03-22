@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+
+<style>
+.tableArtist {
+    table-layout: fixed;
+}
+
+.tableArtist td {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.rowColour {
+    position: relative;
+    /*display: block;*/
+    /*border-bottom: 2px solid;*/
+    border-color: rgba(240, 240, 240, 1);
+}
+
+.artist-total {
+    height=: 30px;
+    vertical-align: middle;
+}
+
+.cellColour {
+    /*fallback color*/
+    background-image: url(/static/images/rowBackground.png);
+    /*your percentage is the first one (width), second one (100%) is for height*/
+    background-repeat: no-repeat;
+    background-position-y: 100%;
+    color: rgb(0, 0, 0);
+    position: relative;
+    /*display: block;*/
+}
+
+.small-thumbnail {
+    width:45px;
+    height:45px;
+}
+
+.artist-image {
+  -webkit-clip-path: circle(100% at 90% 10%);
+  /* -webkit-clip-path: circle(90% at 10% 20%); */
+  width: 200px;
+  height: 200px;
+  background-image: url('http://img2-ak.lst.fm/i/u/8a6bfa5179b14d4f90cee963d4dc751d.jpg');
+  background-size: cover
+}
+
+.grid-item {
+  width: 150px;
+  height: 150px;
+  float: left;
+}
+.grid-item-big {
+  width: 300px;
+  height: 300px;
+  float: left;
+}
+
+.top-ablums-img {
+    width: 150px;
+    height: 150px
+}
+
+.top-ablums-img-big {
+    width: 300px;
+    height: 300px
+}
+
+.table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
+  background-color: rgba(250,230,230,1);
+}
+span.my-overlay {
+
+background: rgba(250, 250, 250, 0.1);
+display: none;
+height: 150px;
+width: 150px;
+position: relative;
+bottom: 150px;
+margin-bottom: -150px;
+
+}
+.my-overlay-big {
+background: rgba(250, 250, 250, 0.1);
+display: none;
+height: 300px;
+width: 300px;
+position: relative;
+bottom: 300px;
+margin-bottom: -300px;
+
+}
+
+a:hover span.my-overlay {
+
+display:block;
+
+}
+a:hover span.my-overlay-big{
+
+display:block;
+
+}
+</style>
+
+
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+    
+    <link rel="stylesheet" href="{{ url_for('static', filename='js/masonry.js') }}">
+</head>
+
+
+
+
+<body style:"background-color:rgb(250,250,250)">
+    <div style="background-color:beige;width: 100%; height: 300px">
+    </div>
+    <div style="padding-left:100px;padding-right:100px">
+    <div class="row" style="margin:0px"> <!-- style="margin-left:15px;margin-top:-15%"> -->
+        <div class="col-md-3" style="width:300px;height:300px;padding:0px">
+            <!-- <img style="border-radius: 0% 60% 60% 60%; border-width: 30px 10px 20px 10px; padding: 10px 20px 10px 10px; margin: 20px 10px 10px 10px;" -->
+            <img style="border-radius: 50%;width:300px;height:300px" src=/{{artist['filename']}}/>
+        </div>
+        <div class="col-md-9">
+            <h1 style="font-weight:bold">
+                {{ artist['artist'] }}
+            </h1>
+        </div>
+    </div>
+    <div>
+        <!-- insert graph here -->
+    </div>
+    <!-- change to show similar artists -->
+    <div style="max-width:750px">
+        {% for i in range(numAlbums) %}
+            {% if i == 0 %}
+                <div class="grid-item-big">
+                    <a href="http://www.last.fm/music/Matt+&amp;+Kim">
+                        {% if albumlist[i][ 'filename'] == None %}
+                        <img class="top-ablums-img-big" src="/static/images/rowBackground.png"> 
+                        {% else %}
+                        <img class="top-ablums-img-big" src=/{{albumlist[i][ 'filename']}}>
+                        <span class="my-overlay-big"></span>
+                        {% endif %}
+                    </a>
+                </div>
+            {% else %}
+                <div class="grid-item">
+                    <a href="http://www.last.fm/music/Matt+&amp;+Kim">
+                        {% if albumlist[i][ 'filename'] == None %}
+                        <img class="top-ablums-img" src="/static/images/rowBackground.png"> 
+                        {% else %}
+                        <img class="top-ablums-img" src=/{{albumlist[i][ 'filename']}}>
+                        <span class="my-overlay"></span>
+                        {% endif %}
+                    </a>
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+    <div style="max-width:800px">
+        {% for i in range(numAlbums) %}
+        <div class="grid-item">
+            <a href="http://www.last.fm/music/Matt+&amp;+Kim">
+                {% if albumlist[i][ 'filename'] == None %}
+                <img class="top-ablums-img" src="/static/images/rowBackground.png"> 
+                {% else %}
+                <img class="top-ablums-img" src=/{{albumlist[i][ 'filename']}}> 
+                {% endif %}
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="container" style="width:100%;padding:0px;margin:0px;border:0px">
+        <table class="table table-hover table-condensed tableArtist" style="background-color:rgba(240,240,240,1);margin-top:80px">
+            {% for item in albumlist %}
+            <tr class="rowColour artist-total">
+                <!-- artist thumbnail -->
+                <td style="vertical-align:middle; width:45px;height:45px;padding: 0 0 0 0">
+                    {% if item['filename'] == None %}
+                    <img  /> 
+                    {% else %}
+                    <img src=/{{item[ 'filename']}} class="small-thumbnail" /> 
+                    {% endif %}
+                </td>
+                <!-- Artist and listens cell -->
+                <td class="cellColour" style="background-size: {{ item['percentage'] }}% 5px;background-position-x:-2px;vertical-align:middle;/*color: rgb(40,40,40);*/">
+                    <table width=100%>
+                        <tr>
+                            <td style="color:rgb(40,40,40)">
+                                {{ item['album'] }}
+                            </td>
+                            <td style="width:45px;color: #336699;font-weight: bold;">
+                                {{ item['listens'] }}
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+    </div>
+</body>
+
+</html>
